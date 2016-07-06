@@ -7,10 +7,8 @@ public class Student {
     private String lastName;
     private int id;
 
-    public Student(String firstName,String lastName) {
+    public Student() {
         this.id = ID_GENERATOR++;
-        this.firstName=firstName;
-        this.lastName=lastName;
     }
 
 

@@ -12,10 +12,13 @@ import java.util.List;
 public class StudentController {
 
     private List<Student> students = new ArrayList<Student>() {{
-        add(new Student("Vlad","Vasiliev"));
-        add(new Student("Ivan", "Ivanov"));
-        add(new Student("Pert", "Smirnov"));
+        Student student1 = new Student();
+        student1.setFirstName("Ivan");
+        student1.setLastName("Petkin");
+        add(student1);
     }};
+
+
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<?> students() {
@@ -42,8 +45,9 @@ public class StudentController {
 
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteById(@PathVariable("id") int id) {
-        students.remove(students.stream().filter((s) -> s.getId() == id).findFirst().get());
-        return new ResponseEntity<>(HttpStatus.OK);
+       if (students.remove(students.stream().filter((s) -> s.getId() == id).findFirst().get()))
+            return new ResponseEntity<>(HttpStatus.OK);
+        else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.PUT)
