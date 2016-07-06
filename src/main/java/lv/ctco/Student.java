@@ -1,11 +1,12 @@
 package lv.ctco;
 
-/**
- * Created by pavel.grigoryev on 7/6/2016.
- */
 public class Student {
 
-    private static int ID =0;
+    private static int ID_GENERATOR =0;
+
+    public Student() {
+        this.id = ID_GENERATOR++;
+    }
 
     private String firstName;
     private String lastName;

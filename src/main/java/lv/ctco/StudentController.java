@@ -7,9 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by pavel.grigoryev on 7/6/2016.
- */
 @RestController
 @RequestMapping("/students")
 public class StudentController {
