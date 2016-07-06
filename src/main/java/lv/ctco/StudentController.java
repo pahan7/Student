@@ -14,7 +14,7 @@ public class StudentController {
     private List<Student> students = new ArrayList<Student>() {{
         Student student1 = new Student();
         student1.setFirstName("Ivan");
-        student1.setLastName("Petkin");
+        student1.setLastName("a");
         add(student1);
     }};
 
@@ -54,6 +54,8 @@ public class StudentController {
 
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteById(@PathVariable("id") int id) {
+
+
        if (students.remove(students.stream().filter((s) -> s.getId() == id).findFirst().get()))
             return new ResponseEntity<>(HttpStatus.OK);
         else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
