@@ -15,20 +15,24 @@ public class StudentSpringApplicationTests {
 
 	@Test
 	public void deleteByIdTest() {
-		//delete("/students/0").then().statusCode(200);
-		//delete("/students/3").then().statusCode(404);
+		delete("/students/0").then().statusCode(200);
+		delete("/students/3").then().statusCode(404);
 	}
 
 	@Test
-	public void update() {
+	public void updateById() {
 
-		/*given().
-				body("{"firstName": "Ivan",
-				"lastName": "a",
-				"id": 0});
-				when().put("/students/0").then().statusCode(200);
+        Student student = new Student();
+        student.setFirstName("Alina");
+        student.setLastName("Vasilevska");
+        student.setId(0);
 
-*/
+		given().
+				contentType("application/json").
+                body(student).
+				//body("{\"firstName\": \"Ivan\", \"lastName\": \"b\", \"id\": 0}").
+				when().put("/students/5").then().statusCode(404);
+                when().put("/students/0").then().statusCode(200);
 	}
 
 

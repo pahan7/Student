@@ -21,12 +21,12 @@ public class StudentController {
 
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<?> students() {
+    public ResponseEntity<?> getAllStudents() {
         return new ResponseEntity<>(students, HttpStatus.OK);
     }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> studentById(@PathVariable("id") int id) {
+    public ResponseEntity<?> getStudentById(@PathVariable("id") int id) {
         //Student student = students.stream().filter((s) -> s.getId() == id).findFirst().get();
         for (Student s1 : students) {
             if (s1.getId() == id)
@@ -36,7 +36,7 @@ public class StudentController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<?> studentsPost(@RequestBody Student student) {
+    public ResponseEntity<?> addStudent(@RequestBody Student student) {
 
         if (student.getFirstName().equals("") || student.getLastName().equals("")) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -54,11 +54,13 @@ public class StudentController {
 
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteById(@PathVariable("id") int id) {
-
-
-       if (students.remove(students.stream().filter((s) -> s.getId() == id).findFirst().get()))
-            return new ResponseEntity<>(HttpStatus.OK);
-        else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        for (Student s1 : students) {
+            if (s1.getId() == id) {
+                students.remove(s1);
+                return new ResponseEntity<>(s1, HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.PUT)
