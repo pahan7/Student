@@ -34,15 +34,23 @@ public class StudentController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @RequestMapping(method = RequestMethod.DELETE)
+    public ResponseEntity<?> deleteAll() {
+        students.clear();
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> studentDeleteById(@PathVariable("id") int id){
+    public ResponseEntity<?> deleteById(@PathVariable("id") int id) {
         students.remove(students.stream().filter((s) -> s.getId() == id).findFirst().get());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> studentUpdateFirstNameById(@PathVariable("id") int id){
-        students.stream().filter((s) -> s.getId() == id).findFirst().get().setFirstName("");
+    public ResponseEntity<?> updateById(@PathVariable("id") int id, @RequestBody Student student) {
+        Student student1 = students.stream().filter((s) -> s.getId() == id).findFirst().get();
+        student1.setFirstName(student.getFirstName());
+        student1.setLastName(student.getLastName());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
