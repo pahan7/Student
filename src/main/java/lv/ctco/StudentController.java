@@ -35,9 +35,10 @@ public class StudentController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    //@RequestMapping(method = RequestMethod.DELETE)
-    //public ResponseEntity<?> studentDeleteById(()){
+    @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> studentDeleteById(@PathVariable("id") int id){
+        students.remove(students.stream().filter((s) -> s.getId() == id).findFirst().get());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
-     //   return new ResponseEntity<>(student,HttpStatus.OK);
-    //}
 }
