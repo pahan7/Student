@@ -25,14 +25,23 @@ public class StudentController {
 
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> studentById(@PathVariable("id") int id) {
-        Student student = students.stream().filter((s) -> s.getId() == id).findFirst().get();
-        return new ResponseEntity<>(student, HttpStatus.OK);
+        //Student student = students.stream().filter((s) -> s.getId() == id).findFirst().get();
+        for (Student s1 : students) {
+            if (s1.getId() == id)
+                return new ResponseEntity<>(s1, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<?> studentsPost(@RequestBody Student student) {
-        students.add(student);
-        return new ResponseEntity<>(HttpStatus.OK);
+
+        if (student.getFirstName().equals("") || student.getLastName().equals("")) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else {
+            students.add(student);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }
     }
 
     @RequestMapping(method = RequestMethod.DELETE)
@@ -49,10 +58,17 @@ public class StudentController {
 
     @RequestMapping(path = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity<?> updateById(@PathVariable("id") int id, @RequestBody Student student) {
-        Student student1 = students.stream().filter((s) -> s.getId() == id).findFirst().get();
-        student1.setFirstName(student.getFirstName());
-        student1.setLastName(student.getLastName());
-        return new ResponseEntity<>(HttpStatus.OK);
+        if (student.getFirstName().equals("") || student.getLastName().equals(""))
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        for (Student s1 : students) {
+            if (s1.getId() == id) {
+                s1.setFirstName(student.getFirstName());
+                s1.setLastName(student.getLastName());
+                return new ResponseEntity<>(s1, HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 }

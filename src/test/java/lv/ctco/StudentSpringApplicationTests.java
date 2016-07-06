@@ -12,7 +12,9 @@ import org.springframework.test.context.web.WebAppConfiguration;
 public class StudentSpringApplicationTests {
 
 	@Test
-	public void contextLoads() {
+	public void deleteByIdTest() {
+
+
 	}
 
 }
