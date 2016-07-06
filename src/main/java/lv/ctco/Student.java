@@ -3,14 +3,15 @@ package lv.ctco;
 public class Student {
 
     private static int ID_GENERATOR =0;
+    private String firstName;
+    private String lastName;
+    private int id;
 
     public Student() {
         this.id = ID_GENERATOR++;
     }
 
-    private String firstName;
-    private String lastName;
-    private int id;
+
 
     public String getFirstName() {
         return firstName;
