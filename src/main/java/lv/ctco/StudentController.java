@@ -37,4 +37,10 @@ public class StudentController {
         students.add(student);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    //@RequestMapping(method = RequestMethod.DELETE)
+    //public ResponseEntity<?> studentDeleteById(()){
+
+     //   return new ResponseEntity<>(student,HttpStatus.OK);
+    //}
 }
