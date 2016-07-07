@@ -1,5 +1,6 @@
 package lv.ctco;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,50 +18,37 @@ public class StudentController {
         student1.setLastName("a");
         add(student1);
     }};
-
-
+    @Autowired
+    StudentRepository studentRepository;
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<?> getAllStudents() {
+        List<Student> students = studentRepository.findAll();
         return new ResponseEntity<>(students, HttpStatus.OK);
     }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getStudentById(@PathVariable("id") int id) {
-        //Student student = students.stream().filter((s) -> s.getId() == id).findFirst().get();
-        for (Student s1 : students) {
-            if (s1.getId() == id)
-                return new ResponseEntity<>(s1, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(studentRepository.findOne(id), HttpStatus.OK);
+
     }
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<?> addStudent(@RequestBody Student student) {
-
-        if (student.getFirstName().equals("") || student.getLastName().equals("")) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        } else {
-            students.add(student);
-            return new ResponseEntity<>(HttpStatus.CREATED);
-        }
+        studentRepository.save(student);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteAll() {
-        students.clear();
+        studentRepository.deleteAll();
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteById(@PathVariable("id") int id) {
 
-        for (Student s1 : students) {
-            if (s1.getId() == id) {
-                students.remove(s1);
-                return new ResponseEntity<>(s1, HttpStatus.OK);
-            }
-        }
+        studentRepository.delete(id);
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
     }
@@ -69,14 +57,11 @@ public class StudentController {
     public ResponseEntity<?> updateById(@PathVariable("id") int id, @RequestBody Student student) {
         if (student.getFirstName().equals("") || student.getLastName().equals(""))
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        Student student1 = studentRepository.getOne(id);
+        student1.setFirstName(student.getFirstName());
+        student1.setLastName(student.getLastName());
+        studentRepository.save(student1);
 
-        for (Student s1 : students) {
-            if (s1.getId() == id) {
-                s1.setFirstName(student.getFirstName());
-                s1.setLastName(student.getLastName());
-                return new ResponseEntity<>(s1, HttpStatus.OK);
-            }
-        }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 

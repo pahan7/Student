@@ -1,17 +1,17 @@
 package lv.ctco;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class Student {
 
-    private static int ID_GENERATOR =0;
     private String firstName;
     private String lastName;
+    @Id
+    @GeneratedValue
     private int id;
-
-    public Student() {
-        this.id = ID_GENERATOR++;
-    }
-
-
 
     public String getFirstName() {
         return firstName;
