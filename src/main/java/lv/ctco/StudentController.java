@@ -45,6 +45,7 @@ public class StudentController {
 
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteById(@PathVariable("id") int id) {
+
        if (students.remove(students.stream().filter((s) -> s.getId() == id).findFirst().get()))
             return new ResponseEntity<>(HttpStatus.OK);
         else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
