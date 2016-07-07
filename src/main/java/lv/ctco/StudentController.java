@@ -54,6 +54,7 @@ public class StudentController {
 
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteById(@PathVariable("id") int id) {
+
         for (Student s1 : students) {
             if (s1.getId() == id) {
                 students.remove(s1);
@@ -61,6 +62,7 @@ public class StudentController {
             }
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
     }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.PUT)
