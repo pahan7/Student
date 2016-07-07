@@ -1,8 +1,8 @@
 package lv.ctco;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Student {
@@ -12,6 +12,8 @@ public class Student {
     @Id
     @GeneratedValue
     private int id;
+    @OneToMany(cascade= CascadeType.ALL)
+    private List<Assignment> assignments = new ArrayList<>();
 
     public String getFirstName() {
         return firstName;
@@ -35,5 +37,17 @@ public class Student {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public void setAssignments(List<Assignment> assignments) {
+        this.assignments=assignments;
+    }
+
+    public List<Assignment> getAssignments() {
+        return assignments;
+    }
+
+    public void addAssignment(Assignment assignment){
+        assignments.add(assignment);
     }
 }

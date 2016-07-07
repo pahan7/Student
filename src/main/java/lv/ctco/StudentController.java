@@ -3,6 +3,7 @@ package lv.ctco;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -12,12 +13,7 @@ import java.util.List;
 @RequestMapping("/students")
 public class StudentController {
 
-    private List<Student> students = new ArrayList<Student>() {{
-        Student student1 = new Student();
-        student1.setFirstName("Ivan");
-        student1.setLastName("a");
-        add(student1);
-    }};
+
     @Autowired
     StudentRepository studentRepository;
 
@@ -33,10 +29,19 @@ public class StudentController {
 
     }
 
+    @Transactional
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<?> addStudent(@RequestBody Student student) {
         studentRepository.save(student);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @Transactional
+    @RequestMapping(path = "/{id}/assignment", method = RequestMethod.POST)
+    public ResponseEntity addAssignment(@PathVariable("id") int id, @RequestBody Assignment assignment){
+        //Student st = studentRepository.findOne(id);
+        //st.addAssignment(assignment);
+        //return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @RequestMapping(method = RequestMethod.DELETE)
@@ -52,6 +57,8 @@ public class StudentController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
     }
+
+    @RequestMapping(path = "/{id", method = )
 
     @RequestMapping(path = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity<?> updateById(@PathVariable("id") int id, @RequestBody Student student) {
