@@ -39,14 +39,22 @@ public class StudentController {
     @Transactional
     @RequestMapping(path = "/{id}/assignment", method = RequestMethod.POST)
     public ResponseEntity addAssignment(@PathVariable("id") int id, @RequestBody Assignment assignment){
-        //Student st = studentRepository.findOne(id);
-        //st.addAssignment(assignment);
-        //return new ResponseEntity<>(HttpStatus.CREATED);
+        Student st = studentRepository.findOne(id);
+        st.addAssignment(assignment);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @RequestMapping(method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteAll() {
         studentRepository.deleteAll();
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Transactional
+    @RequestMapping(path = "/{id}/assignment/{aId}",method = RequestMethod.DELETE)
+    public ResponseEntity deleteAssignmentById(@PathVariable("id") int id,@PathVariable("aId") int aId){
+        Student st = studentRepository.getOne(id);
+        st.deleteAssignment(aId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -58,7 +66,6 @@ public class StudentController {
 
     }
 
-    @RequestMapping(path = "/{id", method = )
 
     @RequestMapping(path = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity<?> updateById(@PathVariable("id") int id, @RequestBody Student student) {

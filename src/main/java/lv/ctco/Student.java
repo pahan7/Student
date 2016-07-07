@@ -50,4 +50,6 @@ public class Student {
     public void addAssignment(Assignment assignment){
         assignments.add(assignment);
     }
+
+    public void deleteAssignment(int id){ assignments.remove(id-1);}
 }
